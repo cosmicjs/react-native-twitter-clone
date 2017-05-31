@@ -1,0 +1,1 @@
+This is a mobile app with very simple functionality similar to Twitter. This app is being built using React Native for the mobile UI, [Cosmic JS](https://cosmicjs.com/) to manage all of the “tweet” data, and Socket io to push tweets to users’ feeds.
