@@ -1,6 +1,3 @@
-import React from 'react';
-import { Text } from 'react-native';
+import Welcome from './Welcome';
 
-export default () => (
-  <Text>This is the welcome screen.</Text>
-)
+export default Welcome;

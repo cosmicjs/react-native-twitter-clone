@@ -19,14 +19,4 @@ export const styles = StyleSheet.create({
     padding: 10,
     height: 50,
   },
-  button: {
-    padding: 10,
-    marginTop: 10,
-    backgroundColor: colors.lightBlue,
-  },
-  label: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: '600',
-  },
 });
