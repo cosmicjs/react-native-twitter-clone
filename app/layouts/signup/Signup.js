@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Font } from 'expo';
 import { Text } from 'react-native';
 import { Grid, Row, Col, Button } from 'react-native-elements';
 import LargeButton from '../../components/LargeButton';
 import SmallTextInput from '../../components/SmallTextInput';
 import { styles } from './styles';
+import { addUser } from '../../redux/reducers/users';
 
-export default class Signup extends Component {
+const mapStateToProps = state => ({
+  activeUser: state.activeUser,
+});
+
+const mapDispatchToProps = {addUser};
+
+class Signup extends Component {
   constructor() {
     super();
     this.state = {
@@ -25,6 +33,13 @@ export default class Signup extends Component {
     this.setState({ fontLoaded: true });
   }
 
+  onPress = () => {
+    const name = this.state.firstName + ' ' + this.state.lastName
+    this.props.addUser({
+      name,
+      username: this.state.userName,
+    })
+  }
 
   render(){
     return (
@@ -87,3 +102,5 @@ export default class Signup extends Component {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
