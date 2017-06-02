@@ -27,6 +27,8 @@
     "react-native-router-flux": "^3.39.2",
     "react-redux": "^5.0.5",
     "redux": "^3.6.0",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0"
   }
 }
