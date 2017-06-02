@@ -50,10 +50,7 @@ export const addUser = user => dispatch => {
     ]
   }
 )
-       .then(res => {
-         return formatUser(res.data)
-       })
+       .then(res => formatUser(res.data))
        .then(formattedUser => dispatch(createUser(formattedUser)))
-      //  .then(res => dispatch(createUser(res.data)))
-       .catch(err => console.error(`Creating user: ${user} unsuccesful`, err));
+       .catch(err => console.error(`Creating user unsuccesful`, err));
 };
