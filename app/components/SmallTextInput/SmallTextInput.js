@@ -5,7 +5,7 @@ import { styles } from './styles';
 
 export default (props) => (
   <View>
-    <FormLabel>{props.title}</FormLabel>
+    {/*<FormLabel>{props.title}</FormLabel>*/}
     <FormInput
       style={props.type === 'big' ? styles.big : styles.small}
       value={props.value}

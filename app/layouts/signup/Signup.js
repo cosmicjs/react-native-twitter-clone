@@ -47,25 +47,23 @@ class Signup extends Component {
         <Row>
           <Col>
             <SmallTextInput
-              required
-              title='First Name'
               type='small'
               value={this.props.firstName}
               onChange={(text) => this.setState({firstName: text})}
+              placeholder='First Name'
             />
           </Col>
           <Col>
             <SmallTextInput
-              title='Last Name'
               type='small'
               value={this.props.lastName}
               onChange={(text) => this.setState({lastName: text})}
+              placeholder='Last Name'
             />
           </Col>
         </Row>
         <Row>
           <SmallTextInput
-            title='Username'
             type='big'
             value={this.props.username}
             onChange={(text) => this.setState({userName: text})}
@@ -74,17 +72,16 @@ class Signup extends Component {
         </Row>
         <Row>
           <SmallTextInput
-            title='Password'
             type='big'
             value={this.props.password}
             onChange={(text) => this.setState({password: text})}
-            placeholder='Enter a password'
+            placeholder='Add a profile picture'
           />
         </Row>
         <Row size={2} containerStyle={styles.picture}>
         {
           this.state.fontLoaded ? (
-            <Text style={{fontFamily: 'roboto'}}>Add a profile picture</Text>
+            <Text style={{fontFamily: 'roboto', color: '#C6C6CB', fontSize: 17}}>Add a profile picture</Text>
             ) : null
         }
           <Button
