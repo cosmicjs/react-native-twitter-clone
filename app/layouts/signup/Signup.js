@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Font } from 'expo';
 import { Text } from 'react-native';
 import { Grid, Row, Col, Button } from 'react-native-elements';
 import LargeButton from '../../components/LargeButton';
@@ -13,8 +14,17 @@ export default class Signup extends Component {
       lastName: '',
       userName: '',
       password: '',
+      fontLoaded: false,
     };
   }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'roboto': require('../../assets/fonts/Roboto-Regular.ttf'),
+    });
+    this.setState({ fontLoaded: true });
+  }
+
 
   render(){
     return (
@@ -57,7 +67,11 @@ export default class Signup extends Component {
           />
         </Row>
         <Row size={2} containerStyle={styles.picture}>
-          <Text>Add a profile picture</Text>
+        {
+          this.state.fontLoaded ? (
+            <Text style={{fontFamily: 'roboto'}}>Add a profile picture</Text>
+            ) : null
+        }
           <Button
             title='+'
             buttonStyle={styles.button}
