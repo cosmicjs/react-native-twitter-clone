@@ -12,6 +12,10 @@ export const styles = StyleSheet.create({
   picture: {
     flex: 1,
   },
+  pictureText: {
+    color: 'rgb(198, 198, 203)',
+    fontSize: 16,
+  },
   avatar: {
     position: 'absolute',
     top: 40,

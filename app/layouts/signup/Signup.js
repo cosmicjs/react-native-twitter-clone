@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Font, ImagePicker } from 'expo';
+import { ImagePicker } from 'expo';
 import { Text } from 'react-native';
 import { Grid, Row, Col, Avatar } from 'react-native-elements';
-import { Actions } from 'react-native-router-flux'
 import LargeButton from '../../components/LargeButton';
 import SmallTextInput from '../../components/SmallTextInput';
 import { styles } from './styles';
@@ -24,22 +23,16 @@ class Signup extends Component {
       userName: '',
       password: '',
       image: null,
-      fontLoaded: false,
     };
   }
 
-  async componentDidMount() {
-    await Font.loadAsync({
-      'roboto': require('../../assets/fonts/Roboto-Regular.ttf'),
-    });
-    this.setState({ fontLoaded: true });
-  }
-
-  onPress = () => {
+  onSubmit = () => {
     const name = this.state.firstName + ' ' + this.state.lastName
     this.props.addUser({
       name,
       username: this.state.userName,
+      password: this.state.password,
+      profilePicture: this.state.image,
     })
   }
 
@@ -48,9 +41,6 @@ class Signup extends Component {
       allowsEditing: true,
       aspect: [4, 3],
     });
-
-    console.log(result);
-
     if (!result.cancelled) {
       this.setState({ image: result.uri });
     }
@@ -95,29 +85,19 @@ class Signup extends Component {
           />
         </Row>
         <Row style={styles.picture}>
-        {
-          this.state.fontLoaded ? (
-            <Text
-              style={{
-                fontFamily: 'roboto',
-                color: 'rgb(198, 198, 203)',
-                fontSize: 16,
-              }}
-            >Add a profile picture</Text>
-            ) : null
-        }
+          <Text style={styles.pictureText}>Add a profile picture</Text>
           <Avatar
             medium
             rounded
-            source={ this.state.image && {uri: this.state.image}}
-            icon={ !this.state.image && {name: 'local-see'}}
+            source={ this.state.image ? {uri: this.state.image} : null}
+            icon={ this.state.image ? null : {name: 'local-see'}}
             onPress={this._pickImage}
             containerStyle={styles.avatar}
           />
         </Row>
         <Row>
           <LargeButton
-            onPress={this.onPress}
+            onPress={this.onSubmit}
             title={'Create account'}
             />
         </Row>

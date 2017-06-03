@@ -28,11 +28,13 @@ export default (prevState = initialState, action) => {
 const formatUser = data => ({
   name: data.object.title,
   userName: data.object.metadata.username,
+  profilePicture: data.object.metadata.profile_picture,
 })
 
 
 // Dispatcher
 export const addUser = user => dispatch => {
+  console.log('USER: ', user);
   axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
     title: user.name,
     type_slug: 'users',
@@ -46,6 +48,16 @@ export const addUser = user => dispatch => {
         key: 'username',
         type: 'text',
         value: user.username,
+      },
+      {
+        key: 'password',
+        type: 'text',
+        value: user.password,
+      },
+      {
+        key: 'profile_picture',
+        type: 'media',
+        value: user.profilePicture,
       }
     ]
   }
