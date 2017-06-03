@@ -19,10 +19,13 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/vector-icons": "^5.0.0",
     "axios": "^0.16.1",
     "expo": "^17.0.0",
+    "native-base": "^2.1.4",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.0",
+    "react-native-easy-grid": "^0.1.13",
     "react-native-elements": "git://github.com/react-native-training/react-native-elements.git#next",
     "react-native-router-flux": "^3.39.2",
     "react-redux": "^5.0.5",

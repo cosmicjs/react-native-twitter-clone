@@ -1,13 +1,13 @@
 import React from 'react';
-import { Button } from 'react-native-elements';
+import { Text } from 'react-native';
+import { Button } from 'native-base';
 import { styles } from './styles';
 
 export default (props) => (
   <Button
-    buttonStyle={styles.button}
+    block
     onPress={props.onPress}
-    textStyle={styles.label}
-    title={props.title}
-    >
+  >
+    <Text>{props.title}</Text>
   </Button>
 )

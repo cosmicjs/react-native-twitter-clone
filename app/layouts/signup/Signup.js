@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ImagePicker } from 'expo';
-import { Text } from 'react-native';
-import { Grid, Row, Col, Avatar } from 'react-native-elements';
-import LargeButton from '../../components/LargeButton';
-import SmallTextInput from '../../components/SmallTextInput';
+import {
+  Container,
+  Content,
+  Button,
+  Text,
+  Form,
+  Item,
+  Input,
+  Label,
+  Thumbnail,
+  Icon
+} from 'native-base';
+
 import { styles } from './styles';
 import { addUser } from '../../redux/reducers/users';
-
-const mapStateToProps = state => ({
-  activeUser: state.activeUser,
-});
 
 const mapDispatchToProps = {addUser};
 
@@ -26,7 +31,7 @@ class Signup extends Component {
     };
   }
 
-  onSubmit = () => {
+  onSubmit(){
     const name = this.state.firstName + ' ' + this.state.lastName
     this.props.addUser({
       name,
@@ -48,62 +53,51 @@ class Signup extends Component {
 
   render(){
     return (
-      <Grid style={styles.container}>
-        <Row>
-          <Col>
-            <SmallTextInput
-              type='small'
-              value={this.props.firstName}
-              onChange={(text) => this.setState({firstName: text})}
-              placeholder='First Name'
+      <Container style={{marginTop: 64}}>
+        <Content>
+          <Form style={{margin: 10}}>
+            <Item stackedLabel>
+                <Label>First Name</Label>
+                <Input />
+            </Item>
+            <Item stackedLabel>
+                <Label>Last Name</Label>
+                <Input />
+            </Item>
+            <Item stackedLabel>
+                <Label>Username</Label>
+                <Input />
+            </Item>
+            <Item stackedLabel>
+                <Label>Password</Label>
+                <Input />
+            </Item>
+          </Form>
+          <Text style={{alignSelf: 'center'}}>Add a profile picture</Text>
+          <Button
+            dark
+            bordered
+            style={{
+              alignSelf: 'center',
+              margin: 15,
+              borderRadius: 100,
+          }}>
+            <Icon
+              ios='ios-camera'
+              android='md-camera'
             />
-          </Col>
-          <Col>
-            <SmallTextInput
-              type='small'
-              value={this.props.lastName}
-              onChange={(text) => this.setState({lastName: text})}
-              placeholder='Last Name'
-            />
-          </Col>
-        </Row>
-        <Row>
-          <SmallTextInput
-            type='big'
-            value={this.props.username}
-            onChange={(text) => this.setState({userName: text})}
-            placeholder='Enter a username'
-          />
-        </Row>
-        <Row>
-          <SmallTextInput
-            secure
-            type='big'
-            value={this.props.password}
-            onChange={(text) => this.setState({password: text})}
-            placeholder='Enter password'
-          />
-        </Row>
-        <Row style={styles.picture}>
-          <Text style={styles.pictureText}>Add a profile picture</Text>
-          <Avatar
-            medium
-            rounded
-            source={ this.state.image ? {uri: this.state.image} : null}
-            icon={ this.state.image ? null : {name: 'local-see'}}
-            onPress={this._pickImage}
-            containerStyle={styles.avatar}
-          />
-        </Row>
-        <Row>
-          <LargeButton
+          </Button>
+          <Button
+            block
+            style={{margin: 10}}
             onPress={this.onSubmit}
-            title={'Create account'}
-            />
-        </Row>
-      </Grid>
+          >
+            <Text>Create account</Text>
+          </Button>
+        </Content>
+      </Container>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default connect(null, mapDispatchToProps)(Signup);
