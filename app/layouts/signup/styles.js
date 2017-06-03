@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../config/styles';
+// import colors from '../../config/styles';
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,19 +7,14 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'space-around',
   },
   picture: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'column',
-    margin: 20,
   },
-  button: {
-    marginTop: 15,
-    width: 60,
-    height: 60,
-    borderRadius: 50,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+  avatar: {
+    position: 'absolute',
+    top: 40,
+    left: 48,
   }
 });

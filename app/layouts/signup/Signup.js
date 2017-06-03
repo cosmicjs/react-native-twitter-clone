@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Font } from 'expo';
+import { Font, ImagePicker } from 'expo';
 import { Text } from 'react-native';
-import { Grid, Row, Col, Button } from 'react-native-elements';
+import { Grid, Row, Col, Avatar } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux'
 import LargeButton from '../../components/LargeButton';
 import SmallTextInput from '../../components/SmallTextInput';
 import { styles } from './styles';
@@ -22,6 +23,7 @@ class Signup extends Component {
       lastName: '',
       userName: '',
       password: '',
+      image: null,
       fontLoaded: false,
     };
   }
@@ -41,9 +43,22 @@ class Signup extends Component {
     })
   }
 
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
+
   render(){
     return (
-      <Grid containerStyle={styles.container}>
+      <Grid style={styles.container}>
         <Row>
           <Col>
             <SmallTextInput
@@ -72,21 +87,32 @@ class Signup extends Component {
         </Row>
         <Row>
           <SmallTextInput
+            secure
             type='big'
             value={this.props.password}
             onChange={(text) => this.setState({password: text})}
-            placeholder='Add a profile picture'
+            placeholder='Enter password'
           />
         </Row>
-        <Row size={2} containerStyle={styles.picture}>
+        <Row style={styles.picture}>
         {
           this.state.fontLoaded ? (
-            <Text style={{fontFamily: 'roboto', color: '#C6C6CB', fontSize: 17}}>Add a profile picture</Text>
+            <Text
+              style={{
+                fontFamily: 'roboto',
+                color: 'rgb(198, 198, 203)',
+                fontSize: 16,
+              }}
+            >Add a profile picture</Text>
             ) : null
         }
-          <Button
-            title='+'
-            buttonStyle={styles.button}
+          <Avatar
+            medium
+            rounded
+            source={ this.state.image && {uri: this.state.image}}
+            icon={ !this.state.image && {name: 'local-see'}}
+            onPress={this._pickImage}
+            containerStyle={styles.avatar}
           />
         </Row>
         <Row>

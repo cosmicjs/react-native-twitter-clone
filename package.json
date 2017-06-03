@@ -23,7 +23,7 @@
     "expo": "^17.0.0",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.0",
-    "react-native-elements": "^0.12.2",
+    "react-native-elements": "git://github.com/react-native-training/react-native-elements.git#next",
     "react-native-router-flux": "^3.39.2",
     "react-redux": "^5.0.5",
     "redux": "^3.6.0",
