@@ -41,7 +41,16 @@ class Signup extends Component {
     })
   }
 
-  _pickImage = async () => {
+  //note, Friday 6/9 - form validation is the next thing to figure out
+
+  validate(){
+    const stateProps = Object.keys(this.state);
+    return stateProps.some(property => {
+      return !!this.state[property] !== false
+    })
+  }
+
+  pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
@@ -52,7 +61,7 @@ class Signup extends Component {
   };
 
   render(){
-    console.log(this.state.image);
+
     return (
       <Container style={{marginTop: 64}}>
         <Content>
@@ -60,6 +69,7 @@ class Signup extends Component {
             <Item stackedLabel>
                 <Label>First Name</Label>
                 <Input
+                  name="firstName"
                   value={this.state.firstName}
                   onChangeText={(text) => this.setState({firstName: text})}
                 />
@@ -92,7 +102,7 @@ class Signup extends Component {
             !this.state.image && <Button
             primary
             bordered
-            onPress={this._pickImage}
+            onPress={this.pickImage}
             style={{
               alignSelf: 'center',
               margin: 15,
@@ -110,17 +120,19 @@ class Signup extends Component {
             source={{uri: this.state.image}}
             style={{
               alignSelf: 'center',
-              margin: 10
+              margin: 10,
             }}
           />
           }
           <Button
             block
+            disabled={this.validate()}
             style={{margin: 10}}
             onPress={() => this.onSubmit()}
           >
             <Text>Create account</Text>
           </Button>
+          { this.validate() && <Text style={{fontSize: 10, color: 'grey', alignSelf: 'center'}}>All fields must be filled</Text> }
         </Content>
       </Container>
     );
