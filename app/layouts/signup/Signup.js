@@ -25,7 +25,7 @@ class Signup extends Component {
     this.state = {
       firstName: '',
       lastName: '',
-      userName: '',
+      username: '',
       password: '',
       image: null,
     };
@@ -35,7 +35,7 @@ class Signup extends Component {
     const name = this.state.firstName + ' ' + this.state.lastName
     this.props.addUser({
       name,
-      username: this.state.userName,
+      username: this.state.username,
       password: this.state.password,
       profilePicture: this.state.image,
     })
@@ -52,31 +52,47 @@ class Signup extends Component {
   };
 
   render(){
+    console.log(this.state.image);
     return (
       <Container style={{marginTop: 64}}>
         <Content>
           <Form style={{margin: 10}}>
             <Item stackedLabel>
                 <Label>First Name</Label>
-                <Input />
+                <Input
+                  value={this.state.firstName}
+                  onChangeText={(text) => this.setState({firstName: text})}
+                />
             </Item>
             <Item stackedLabel>
                 <Label>Last Name</Label>
-                <Input />
+                <Input
+                  value={this.state.lastName}
+                  onChangeText={(text) => this.setState({lastName: text})}
+                />
             </Item>
             <Item stackedLabel>
                 <Label>Username</Label>
-                <Input />
+                <Input
+                  value={this.state.username}
+                  onChangeText={(text) => this.setState({username: text})}
+                />
             </Item>
             <Item stackedLabel>
                 <Label>Password</Label>
-                <Input />
+                <Input
+                  secureTextEntry
+                  value={this.state.password}
+                  onChangeText={(text) => this.setState({password: text})}
+                />
             </Item>
           </Form>
           <Text style={{alignSelf: 'center'}}>Add a profile picture</Text>
-          <Button
-            dark
+          {
+            !this.state.image && <Button
+            primary
             bordered
+            onPress={this._pickImage}
             style={{
               alignSelf: 'center',
               margin: 15,
@@ -87,10 +103,21 @@ class Signup extends Component {
               android='md-camera'
             />
           </Button>
+          }
+          {
+            this.state.image && <Thumbnail
+            size={80}
+            source={{uri: this.state.image}}
+            style={{
+              alignSelf: 'center',
+              margin: 10
+            }}
+          />
+          }
           <Button
             block
             style={{margin: 10}}
-            onPress={this.onSubmit}
+            onPress={() => this.onSubmit()}
           >
             <Text>Create account</Text>
           </Button>

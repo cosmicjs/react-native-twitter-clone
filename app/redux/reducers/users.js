@@ -56,7 +56,7 @@ export const addUser = user => dispatch => {
       },
       {
         key: 'profile_picture',
-        type: 'media',
+        type: 'file',
         value: user.profilePicture,
       }
     ]
