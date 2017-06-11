@@ -1,21 +1,28 @@
-import { StyleSheet } from 'react-native';
-// import { fonts } from '../../config/styles';
-
-export const styles = StyleSheet.create({
+export default {
   container: {
     flex: 1,
+    marginTop: 128,
+  },
+  iconBox: {
+    flex: 1,
     alignItems: 'center',
-    marginTop: 64,
+  },
+  icon: {
+    fontSize: 96,
+  },
+  welcome: {
+    fontFamily: 'Pacifico',
+    fontSize: 48,
   },
   buttonContainer: {
-    marginBottom: 64,
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
   },
-  textBox: {
+  or: {
+    fontFamily: 'Pacifico',
+  },
+  button: {
     margin: 10,
-    fontFamily: 'Helvetica',
-    fontSize: 16,
   }
-});
+};
