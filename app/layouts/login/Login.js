@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Icon, Grid, Row } from 'react-native-elements';
 import LargeButton from '../../components/LargeButton';
-import SmallTextInput from '../../components/SmallTextInput';
+import TextField from '../../components/TextField';
 import { styles } from './styles';
 
 export default class Login extends Component {
@@ -27,10 +27,10 @@ export default class Login extends Component {
           />
         </Row>
         <Row containerStyle={styles.loginBox}>
-          <SmallTextInput
+          <TextField
+            name="Enter Username"
             type='big'
             onChange={(text) => this.setState({username: text})}
-            placeholder='Enter Username'
             />
           <LargeButton
             onPress={this.onPress}

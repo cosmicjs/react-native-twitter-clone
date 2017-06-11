@@ -10,8 +10,8 @@ export default () => (
     <Scene key="root">
       <Scene key="welcome" component={Welcome} title="Welcome" />
       <Scene key="login" component={Login} title="Login" />
-      <Scene key="signup" component={Signup} title="Create New Account" />
-      <Scene key="feed" component={SinglePost} title="Home" initial={true} />
+      <Scene key="signup" component={Signup} title="Create New Account" initial={true} />
+      <Scene key="feed" component={SinglePost} title="Home" />
       {/*<Scene key="feed" component={Feed} title="Feed" />
       // <Scene key="post" component={Post} title="Post" />*/}
     </Scene>
