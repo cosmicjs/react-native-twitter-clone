@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Icon, Grid, Row } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 import LargeButton from '../../components/LargeButton';
 import TextField from '../../components/TextField';
 import { styles } from './styles';

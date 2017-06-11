@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { AppRegistry, View } from 'react-native';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { Font, AppLoading } from 'expo';
 import store from './app/redux/store';
-import Routes from './app/config/routes';
-
+import Router from './app/config/routes';
 
 export default class App extends Component {
   constructor(){
@@ -31,13 +30,10 @@ export default class App extends Component {
     }
     return (
       <Provider store={store}>
-        <Routes />
+        <Router />
       </Provider>
     );
   }
 }
 
-
-
 AppRegistry.registerComponent('main', () => App);
-

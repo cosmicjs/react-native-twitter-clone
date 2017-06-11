@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ImagePicker } from 'expo';
+import { Actions } from 'react-native-router-flux';
 import {
   Container,
   Content,
@@ -31,7 +32,7 @@ class Signup extends Component {
   }
 
   onSubmit(){
-    this.props.loadPosts();
+    Actions.login();
     // const name = this.state.firstName + ' ' + this.state.lastName
     // this.props.addUser({
     //   name,

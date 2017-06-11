@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 import { Icon, Grid, Row } from 'react-native-elements';
 import LargeButton from '../../components/LargeButton'
 import { styles } from './styles';
+import { Actions } from 'react-native-router-flux';
 
 export default class Welcome extends Component {
   constructor() {
