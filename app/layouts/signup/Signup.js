@@ -14,8 +14,9 @@ import {
 import TextField from '../../components/TextField';
 import { styles } from './styles';
 import { addUser } from '../../redux/reducers/users';
+import { loadPosts } from '../../redux/reducers/posts';
 
-const mapDispatchToProps = {addUser};
+const mapDispatchToProps = {addUser, loadPosts};
 
 class Signup extends Component {
   constructor() {
@@ -30,13 +31,14 @@ class Signup extends Component {
   }
 
   onSubmit(){
-    const name = this.state.firstName + ' ' + this.state.lastName
-    this.props.addUser({
-      name,
-      username: this.state.username,
-      password: this.state.password,
-      profilePicture: this.state.image,
-    })
+    this.props.loadPosts();
+    // const name = this.state.firstName + ' ' + this.state.lastName
+    // this.props.addUser({
+    //   name,
+    //   username: this.state.username,
+    //   password: this.state.password,
+    //   profilePicture: this.state.image,
+    // })
   }
 
   //note, Friday 6/9 - form validation is the next thing to figure out
