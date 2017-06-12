@@ -7,6 +7,7 @@ import {
   List,
   Button,
   Icon,
+  Text,
 } from 'native-base';
 
 import SinglePost from '../../components/SinglePost';
@@ -43,6 +44,7 @@ class Feed extends Component {
               this.props.posts.map(this.renderPost)
             }
           </List>
+          <Text style={styles.end}>That's all the posts for now!</Text>
         </Content>
         <Button
           rounded

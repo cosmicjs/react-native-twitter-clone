@@ -32,7 +32,7 @@ export default class NewPost extends Component {
               value={this.state.post}
               onChangeText={(text) => this.setState({post: text})}
             />
-            <Button style={styles.button}>
+            <Button rounded style={styles.button}>
               <Text>Post</Text>
             </Button>
           </View>

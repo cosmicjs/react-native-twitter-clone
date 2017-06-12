@@ -1,4 +1,8 @@
 export default {
+  nameContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   name: {
     fontWeight: '600',
     fontSize: 14,
