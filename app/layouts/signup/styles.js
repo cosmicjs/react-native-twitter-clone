@@ -1,24 +1,25 @@
-import { StyleSheet } from 'react-native';
-// import colors from '../../config/styles';
-
-export const styles = StyleSheet.create({
+export default {
   container: {
-    marginTop: 100,
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    marginTop: 64,
   },
-  picture: {
-    flex: 1,
+  mar10: {
+    margin: 10,
   },
-  pictureText: {
-    color: 'rgb(198, 198, 203)',
-    fontSize: 16,
+  addPic: {
+    alignSelf: 'center',
   },
-  avatar: {
-    position: 'absolute',
-    top: 40,
-    left: 48,
-  }
-});
+  uploadButton: {
+    alignSelf: 'center',
+    margin: 15,
+    borderRadius: 100,
+  },
+  thumbnail: {
+    alignSelf: 'center',
+    margin: 10,
+  },
+  formMsg: {
+    fontSize: 10,
+    color: 'grey',
+    alignSelf: 'center',
+  },
+};

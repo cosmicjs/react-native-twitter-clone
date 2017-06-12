@@ -13,11 +13,10 @@ import {
 } from 'native-base';
 
 import TextField from '../../components/TextField';
-import { styles } from './styles';
+import styles from './styles';
 import { addUser } from '../../redux/reducers/users';
-import { loadPosts } from '../../redux/reducers/posts';
 
-const mapDispatchToProps = {addUser, loadPosts};
+const mapDispatchToProps = {addUser};
 
 class Signup extends Component {
   constructor() {
@@ -32,14 +31,13 @@ class Signup extends Component {
   }
 
   onSubmit(){
-    Actions.login();
-    // const name = this.state.firstName + ' ' + this.state.lastName
-    // this.props.addUser({
-    //   name,
-    //   username: this.state.username,
-    //   password: this.state.password,
-    //   profilePicture: this.state.image,
-    // })
+    const name = this.state.firstName + ' ' + this.state.lastName
+    this.props.addUser({
+      name,
+      username: this.state.username,
+      password: this.state.password,
+      profilePicture: this.state.image,
+    })
   }
 
   //note, Friday 6/9 - form validation is the next thing to figure out
@@ -51,7 +49,7 @@ class Signup extends Component {
   //   })
   // }
 
-  pickImage = async () => {
+  uploadImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
@@ -64,9 +62,9 @@ class Signup extends Component {
   render(){
 
     return (
-      <Container style={{marginTop: 64}}>
+      <Container style={styles.container}>
         <Content>
-          <Form style={{margin: 10}}>
+          <Form style={styles.mar10}>
             <TextField
               name="First Name"
               value={this.state.firstName}
@@ -89,18 +87,14 @@ class Signup extends Component {
               onChangeText={(text) => this.setState({password: text})}
             />
           </Form>
-          <Text style={{alignSelf: 'center'}}>Add a profile picture</Text>
+          <Text style={styles.addPic}>Add a profile picture</Text>
           {
             !this.state.image &&
             <Button
-            primary
-            bordered
-            onPress={this.pickImage}
-            style={{
-              alignSelf: 'center',
-              margin: 15,
-              borderRadius: 100,
-            }}>
+              primary
+              bordered
+              onPress={this.uploadImage}
+              style={styles.uploadButton}>
               <Icon
                 ios='ios-camera'
                 android='md-camera'
@@ -110,23 +104,20 @@ class Signup extends Component {
           {
             this.state.image &&
             <Thumbnail
-            size={80}
-            source={{uri: this.state.image}}
-            style={{
-              alignSelf: 'center',
-              margin: 10,
-            }}
+              size={80}
+              source={{uri: this.state.image}}
+              style={styles.thumbnail}
             />
           }
           <Button
             block
             // disabled={this.validate()}
-            style={{margin: 10}}
+            style={styles.mar10}
             onPress={() => this.onSubmit()}
           >
             <Text>Create account</Text>
           </Button>
-          <Text style={{fontSize: 10, color: 'grey', alignSelf: 'center'}}>All fields must be filled</Text>
+          <Text style={styles.formMsg}>All fields must be filled</Text>
         </Content>
       </Container>
     );
