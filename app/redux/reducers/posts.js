@@ -22,17 +22,22 @@ export default (posts = [], action) => {
 }
 
 // Helper Function
-// const formatUser = data => ({
-//   name: data.object.title,
-//   userName: data.object.metadata.username,
-//   profilePicture: data.object.metadata.profile_picture,
-// })
+const formatPosts = data => data.map(post => {
+  const user = post.metadata.user.metadata;
+  return {
+    name: user.name,
+    username: user.username,
+    profilePicture: {uri: user.profile_picture.url},
+    content: post.content.replace(/<[^>]*>/g, ''),
+  }
+})
 
 
 // Dispatcher
 export const loadPosts = () => dispatch => {
   axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/posts`)
-    .then(res => console.log(res.data))
-    // .then(res => dispatch(init(res.data)))
+    .then(res => formatPosts(res.data.objects))
+    // .then(formattedPosts => console.log(formattedPosts))
+    .then(formattedPosts => dispatch(init(formattedPosts)))
     .catch(err => console.error(`Could not load tweets`, err));
 };

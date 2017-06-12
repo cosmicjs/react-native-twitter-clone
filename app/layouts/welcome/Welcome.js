@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   Container,
   Content,
@@ -6,15 +7,26 @@ import {
   Text,
   Button,
 } from 'native-base';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import styles from './styles';
 
-export default class Welcome extends Component {
-  constructor() {
-    super();
-    this.state = {};
+import styles from './styles';
+import { loadPosts } from '../../redux/reducers/posts';
+
+const mapDispatchToProps = {loadPosts}
+
+class Welcome extends Component {
+  componentDidMount(){
+    this.props.loadPosts();
   }
+
+  // login(){
+
+  // }
+
+  // signup(){
+
+  // }
 
   render(){
     return (
@@ -32,6 +44,7 @@ export default class Welcome extends Component {
             <Button
               block
               style={styles.button}
+              onPress={() => Actions.login()}
             >
               <Text>Log in</Text>
             </Button>
@@ -39,6 +52,7 @@ export default class Welcome extends Component {
             <Button
               block
               style={styles.button}
+              onPress={() => Actions.signup()}
             >
               <Text>Sign up</Text>
             </Button>
@@ -49,24 +63,4 @@ export default class Welcome extends Component {
   }
 }
 
-// const styles = {
-//   container: {
-//     marginTop: 128,
-//     flex: 1,
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//     justifyContent: 'space-around',
-//   },
-//   picture: {
-//     flex: 1,
-//   },
-//   pictureText: {
-//     color: 'rgb(198, 198, 203)',
-//     fontSize: 16,
-//   },
-//   avatar: {
-//     position: 'absolute',
-//     top: 40,
-//     left: 48,
-//   }
-// };
+export default connect(null, mapDispatchToProps)(Welcome);
