@@ -4,7 +4,9 @@ import { Actions } from 'react-native-router-flux';
 import {
   Container,
   Content,
-  List
+  List,
+  Button,
+  Icon,
 } from 'native-base';
 
 import SinglePost from '../../components/SinglePost';
@@ -42,6 +44,16 @@ class Feed extends Component {
             }
           </List>
         </Content>
+        <Button
+          rounded
+          style={styles.button}
+          onPress={() => Actions.newPost()}
+        >
+          <Icon
+            name="create"
+            style={{padding: 5}}
+          />
+        </Button>
       </Container>
     );
   }
