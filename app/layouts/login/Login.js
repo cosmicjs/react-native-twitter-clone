@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import { Icon, Grid, Row } from 'react-native-elements';
+import {
+  Container,
+  Content,
+  Icon,
+  Text,
+  Button,
+} from 'native-base';
+import { View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import LargeButton from '../../components/LargeButton';
 import TextField from '../../components/TextField';
-import { styles } from './styles';
+import styles from './styles';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
+      password: '',
     };
   }
 
@@ -19,26 +26,34 @@ export default class Login extends Component {
 
   render(){
     return (
-      <Grid containerStyle={styles.container}>
-        <Row>
-          <Icon
-            name='mood'
-            size='60'
-            color='#1da1f2'
-          />
-        </Row>
-        <Row containerStyle={styles.loginBox}>
-          <TextField
+      <Container style={styles.container}>
+        <Content>
+            <Icon
+              style={styles.icon}
+              ios="ios-happy-outline"
+              android="md-happy"
+            />
+          <View style={styles.loginBox}>
+            <TextField
             name="Enter Username"
             type='big'
             onChange={(text) => this.setState({username: text})}
             />
-          <LargeButton
-            onPress={this.onPress}
-            title={'LOGIN'}
+            <TextField
+            name="Enter Password"
+            type='big'
+            onChange={(text) => this.setState({password: text})}
             />
-        </Row>
-      </Grid>
+          <Button
+            block
+            style={styles.button}
+            onPress={this.onPress}
+          >
+            <Text>Log in</Text>
+          </Button>
+          </View>
+        </Content>
+      </Container>
     );
   }
 }

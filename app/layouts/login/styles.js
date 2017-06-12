@@ -1,15 +1,16 @@
-import { StyleSheet } from 'react-native';
-import colors from '../../config/styles';
-
-export const styles = StyleSheet.create({
+export default {
   container: {
-    marginTop: 64,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginTop: 128,
+  },
+  icon: {
+    fontSize: 96,
+    margin: 15,
+    alignSelf: 'center',
   },
   loginBox: {
-    flex: 1,
-    flexDirection: 'column'
+    margin: 10,
   },
-});
+  button: {
+    marginTop: 20,
+  }
+};
