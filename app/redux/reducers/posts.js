@@ -32,7 +32,6 @@ const formatPosts = data => data.map(post => {
   }
 })
 
-
 // Dispatcher
 export const loadPosts = () => dispatch => {
   axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/posts`)

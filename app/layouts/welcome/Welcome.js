@@ -20,14 +20,6 @@ class Welcome extends Component {
     this.props.loadPosts();
   }
 
-  // login(){
-
-  // }
-
-  // signup(){
-
-  // }
-
   render(){
     return (
       <Container style={styles.container}>
@@ -44,7 +36,7 @@ class Welcome extends Component {
             <Button
               block
               style={styles.button}
-              onPress={() => Actions.login()}
+              onPress={() => Actions.feed()}
             >
               <Text>Log in</Text>
             </Button>

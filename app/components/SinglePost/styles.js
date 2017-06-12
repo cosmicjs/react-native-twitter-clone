@@ -1,6 +1,4 @@
-import { StyleSheet } from 'react-native';
-
-export const styles = StyleSheet.create({
+export default {
   name: {
     fontWeight: '600',
     fontSize: 14,
@@ -12,4 +10,4 @@ export const styles = StyleSheet.create({
   content: {
     fontSize: 16,
   },
-});
+};

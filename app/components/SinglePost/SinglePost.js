@@ -1,8 +1,7 @@
 import React from 'react';
 import { ListItem, Thumbnail, Text, Body, Grid, Row } from 'native-base';
+import { View } from 'react-native';
 import styles from './styles';
-
-const sampleAvatar = require('../../assets/images/sample_avatar.jpg');
 
 export default (props) => (
   <ListItem>
