@@ -38,5 +38,5 @@ export const loadPosts = () => dispatch => {
     .then(res => formatPosts(res.data.objects))
     // .then(formattedPosts => console.log(formattedPosts))
     .then(formattedPosts => dispatch(init(formattedPosts)))
-    .catch(err => console.error(`Could not load tweets`, err));
+    .catch(err => console.error(`Could not load posts`, err));
 };

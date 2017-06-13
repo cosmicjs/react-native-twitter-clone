@@ -1,5 +1,6 @@
 import axios from 'axios';
 import cosmicConfig from '../../config/cosmic';
+import FormData from 'form-data';
 
 const initialState = {
   activeUser: {},
@@ -31,38 +32,49 @@ const formatUser = data => ({
   profilePicture: data.object.metadata.profile_picture,
 })
 
-
 // Dispatcher
 export const addUser = user => dispatch => {
-  console.log('USER: ', user);
-  axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
-    title: user.name,
-    type_slug: 'users',
-    metafields: [
-      {
-        key: 'name',
-        type: 'text',
-        value: user.name,
-      },
-      {
-        key: 'username',
-        type: 'text',
-        value: user.username,
-      },
-      {
-        key: 'password',
-        type: 'text',
-        value: user.password,
-      },
-      {
-        key: 'profile_picture',
-        type: 'file',
-        value: user.profilePicture,
-      }
-    ]
-  }
-)
-       .then(res => formatUser(res.data))
-       .then(formattedUser => dispatch(createUser(formattedUser)))
-       .catch(err => console.error(`Creating user unsuccesful`, err));
-};
+  const url = 'https://api.cosmicjs.com/v1/react-native-cosmic-app/media';
+  let data = new FormData();
+  data.append('media', {
+        uri: user.profilePicture,
+        type: 'image/jpeg',
+        name: 'image'
+      });
+
+  axios.post(url, data)
+  .then(res => res.data.media)
+  .then(media => {
+    console.log(media)
+    return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
+      title: user.name,
+      type_slug: 'users',
+      metafields: [
+        {
+          key: 'name',
+          type: 'text',
+          value: user.name,
+        },
+        {
+          key: 'username',
+          type: 'text',
+          value: user.username,
+        },
+        {
+          key: 'password',
+          type: 'text',
+          value: user.password,
+        },
+        {
+          key: 'profile_picture',
+          type: 'file',
+          value: media.name,
+              }
+            ]
+          }
+        )}
+      )
+      .then(res => formatUser(res.data))
+      .then(formattedUser => dispatch(createUser(formattedUser)))
+      .catch(err => console.error(`Creating user unsuccesful`, err))
+}

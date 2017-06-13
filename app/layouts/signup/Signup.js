@@ -27,6 +27,7 @@ class Signup extends Component {
       username: '',
       password: '',
       image: null,
+      // imageData: null,
     };
   }
 
@@ -55,7 +56,8 @@ class Signup extends Component {
       aspect: [4, 3],
     });
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      console.log('IMAGE: ', result);
+      this.setState({ image: result.uri, imageData: result });
     }
   };
 
