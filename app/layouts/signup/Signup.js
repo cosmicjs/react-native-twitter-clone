@@ -18,6 +18,13 @@ import { addUser } from '../../redux/reducers/users';
 
 const mapDispatchToProps = {addUser};
 
+const validate = values => {
+  const fields = Object.keys(values);
+  return fields.some(field => {
+    return values[field] === '' || values[field] === null;
+  })
+};
+
 class Signup extends Component {
   constructor() {
     super();
@@ -27,28 +34,12 @@ class Signup extends Component {
       username: '',
       password: '',
       image: null,
-      // imageData: null,
     };
   }
 
   onSubmit(){
-    const name = this.state.firstName + ' ' + this.state.lastName
-    this.props.addUser({
-      name,
-      username: this.state.username,
-      password: this.state.password,
-      profilePicture: this.state.image,
-    })
+    this.props.addUser(this.state);
   }
-
-  //note, Friday 6/9 - form validation is the next thing to figure out
-
-  // validate(){
-  //   const stateProps = Object.keys(this.state);
-  //   return stateProps.some(property => {
-  //     return !!this.state[property] !== false
-  //   })
-  // }
 
   uploadImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -113,13 +104,15 @@ class Signup extends Component {
           }
           <Button
             block
-            // disabled={this.validate()}
+            disabled={validate(this.state)}
             style={styles.mar10}
             onPress={() => this.onSubmit()}
           >
             <Text>Create account</Text>
           </Button>
-          <Text style={styles.formMsg}>All fields must be filled</Text>
+          {
+            validate(this.state) && <Text style={styles.formMsg}>All fields must be filled</Text>
+          }
         </Content>
       </Container>
     );

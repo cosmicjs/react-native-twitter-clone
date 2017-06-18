@@ -45,7 +45,7 @@ export const addUser = user => dispatch => {
         {
           key: 'name',
           type: 'text',
-          value: user.name,
+          value: user.firstName + ' ' + user.lastName,
         },
         {
           key: 'username',
