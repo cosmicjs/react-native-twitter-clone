@@ -2,10 +2,6 @@ import axios from 'axios';
 import cosmicConfig from '../../config/cosmic';
 import FormData from 'form-data';
 
-const initialState = {
-  activeUser: {},
-}
-
 // Constants
 const CREATE_USER = 'CREATE_USER';
 
@@ -13,15 +9,12 @@ const CREATE_USER = 'CREATE_USER';
 const createUser = user => ({ type: CREATE_USER, user });
 
 // Reducer
-export default (prevState = initialState, action) => {
-  const nextState = Object.assign({}, prevState);
-
+export default (user = {}, action) => {
   switch (action.type) {
     case CREATE_USER:
-      nextState.activeUser = action.user;
-      return nextState;
+      return action.user;
     default:
-      return prevState;
+      return user;
   }
 }
 
