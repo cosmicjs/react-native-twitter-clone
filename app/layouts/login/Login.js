@@ -52,6 +52,12 @@ export default class Login extends Component {
             <Text>Log in</Text>
           </Button>
           </View>
+          <Button
+            transparent
+            style={styles.signupBtn}
+            onPress={() => Actions.signup()}>
+            <Text style={styles.signupTxt}>Sign up for an account</Text>
+          </Button>
         </Content>
       </Container>
     );

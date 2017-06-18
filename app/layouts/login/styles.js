@@ -12,5 +12,11 @@ export default {
   },
   button: {
     marginTop: 20,
+  },
+  signupBtn: {
+    alignSelf: 'center',
+  },
+  signupTxt: {
+    fontSize: 12,
   }
 };

@@ -3,6 +3,6 @@ export default {
     height: 200,
   },
   small: {
-    height: 50,
+    height: 45,
   }
 };

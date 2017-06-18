@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ImagePicker } from 'expo';
 import { Actions } from 'react-native-router-flux';
+import {View} from 'react-native';
 import {
   Container,
   Content,
@@ -113,6 +114,13 @@ class Signup extends Component {
           {
             validate(this.state) && <Text style={styles.formMsg}>All fields must be filled</Text>
           }
+          <Button
+            transparent
+            style={styles.loginBtn}
+            onPress={() => Actions.login()}
+          >
+            <Text style={styles.loginTxt}>Already have an account?</Text>
+          </Button>
         </Content>
       </Container>
     );

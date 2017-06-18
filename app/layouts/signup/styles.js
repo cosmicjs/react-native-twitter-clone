@@ -10,7 +10,7 @@ export default {
   },
   uploadButton: {
     alignSelf: 'center',
-    margin: 15,
+    margin: 10,
     borderRadius: 100,
   },
   thumbnail: {
@@ -22,4 +22,10 @@ export default {
     color: 'grey',
     alignSelf: 'center',
   },
+  loginBtn: {
+    alignSelf:'center',
+  },
+  loginTxt: {
+    fontSize: 10,
+  }
 };

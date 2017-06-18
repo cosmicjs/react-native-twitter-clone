@@ -36,7 +36,7 @@ class Welcome extends Component {
             <Button
               block
               style={styles.button}
-              onPress={() => Actions.feed()}
+              onPress={() => Actions.login()}
             >
               <Text>Log in</Text>
             </Button>
