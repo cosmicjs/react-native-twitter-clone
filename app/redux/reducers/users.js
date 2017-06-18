@@ -33,16 +33,15 @@ const formatUser = data => ({
 export const addUser = user => dispatch => {
   let data = new FormData();
   data.append('media', {
-        uri: user.profilePicture,
+        uri: user.image,
         type: 'image/jpeg',
         name: 'image'
       });
-
   axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/media`, data)
   .then(res => res.data.media)
   .then(media => {
     return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
-      title: user.name,
+      title: user.firstName + ' ' + user.lastName,
       type_slug: 'users',
       metafields: [
         {
