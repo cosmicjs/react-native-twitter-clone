@@ -24,6 +24,7 @@ export default {
   },
   loginBtn: {
     alignSelf:'center',
+    padding: 0,
   },
   loginTxt: {
     fontSize: 10,

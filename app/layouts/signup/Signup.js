@@ -12,10 +12,12 @@ import {
   Thumbnail,
   Icon
 } from 'native-base';
+import axios from 'axios';
 
 import TextField from '../../components/TextField';
 import styles from './styles';
 import { addUser } from '../../redux/reducers/users';
+import cosmicConfig from '../../config/cosmic';
 
 const mapDispatchToProps = {addUser};
 
@@ -27,13 +29,12 @@ const validate = form => {
   if (form.password.includes(" ")){
     errorMessage = "Password cannot contain spaces";
   }
-
-  Object.keys(form).map(field => {
+  Object.keys(form).slice(0, 5).map(field => {
     if (!form[field]){
+      console.log('FIELD', field);
       errorMessage = 'All fields must be filled';
     }
   })
-
   return errorMessage;
 }
 
@@ -55,8 +56,20 @@ class Signup extends Component {
     if (error) {
       this.setState({ error })
     } else {
-      this.props.addUser(this.state);
+      this.checkUsername(this.state.username);
     }
+  }
+
+  checkUsername(username){
+    axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/users/search?metafield_key=username&metafield_value=${username}`)
+    .then(res => res.data)
+    .then(data => {
+      if (data.objects) {
+        this.setState({ error: 'Username not available'})
+      } else {
+        this.props.addUser(this.state);
+      }
+    })
   }
 
   uploadImage = async () => {
@@ -90,7 +103,7 @@ class Signup extends Component {
               onChangeText={(text) => this.setState({username: text})}
             />
             <TextField
-              secure
+              secureTextEntry
               name="Password"
               value={this.state.password}
               onChangeText={(text) => this.setState({password: text})}
