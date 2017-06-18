@@ -1,6 +1,7 @@
 import axios from 'axios';
 import cosmicConfig from '../../config/cosmic';
 import FormData from 'form-data';
+import { Actions } from 'react-native-router-flux';
 
 // Constants
 const CREATE_USER = 'CREATE_USER';
@@ -70,11 +71,13 @@ export const addUser = user => dispatch => {
       )
       .then(res => formatUser(res.data))
       .then(formattedUser => dispatch(createUser(formattedUser)))
+      .then(() => Actions.feed())
       .catch(err => console.error(`Creating user unsuccesful`, err))
 }
 
-const authenticate = user => {
+export const authenticate = user => dispatch => {
+  console.log('USER: ', user);
   axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/users/search?metafield_key=username&metafield_value=${user.username}`)
-  .then(res => res.data)
-  .then(data => console.log(data))
+    .then(res => res.data)
+    .then(data => console.log(data))
 }

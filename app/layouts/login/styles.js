@@ -18,5 +18,10 @@ export default {
   },
   signupTxt: {
     fontSize: 12,
+  },
+  formMsg: {
+    fontSize: 10,
+    color: 'red',
+    alignSelf: 'center',
   }
 };
