@@ -19,12 +19,23 @@ import { addUser } from '../../redux/reducers/users';
 
 const mapDispatchToProps = {addUser};
 
-const validate = values => {
-  const fields = Object.keys(values);
-  return fields.some(field => {
-    return values[field] === '' || values[field] === null;
+const validate = form => {
+  let errorMessage = '';
+  if (form.username.includes(" ")){
+    errorMessage = "Username cannot contain spaces";
+  }
+  if (form.password.includes(" ")){
+    errorMessage = "Password cannot contain spaces";
+  }
+
+  Object.keys(form).map(field => {
+    if (!form[field]){
+      errorMessage = 'All fields must be filled';
+    }
   })
-};
+
+  return errorMessage;
+}
 
 class Signup extends Component {
   constructor() {
@@ -35,11 +46,17 @@ class Signup extends Component {
       username: '',
       password: '',
       image: null,
+      error: '',
     };
   }
 
   onSubmit(){
-    this.props.addUser(this.state);
+    const error = validate(this.state);
+    if (error) {
+      this.setState({ error })
+    } else {
+      this.props.addUser(this.state);
+    }
   }
 
   uploadImage = async () => {
@@ -48,13 +65,11 @@ class Signup extends Component {
       aspect: [4, 3],
     });
     if (!result.cancelled) {
-      console.log('IMAGE: ', result);
-      this.setState({ image: result.uri, imageData: result });
+      this.setState({ image: result.uri });
     }
   };
 
   render(){
-
     return (
       <Container style={styles.container}>
         <Content>
@@ -105,14 +120,13 @@ class Signup extends Component {
           }
           <Button
             block
-            disabled={validate(this.state)}
             style={styles.mar10}
             onPress={() => this.onSubmit()}
           >
             <Text>Create account</Text>
           </Button>
           {
-            validate(this.state) && <Text style={styles.formMsg}>All fields must be filled</Text>
+            !!this.state.error && <Text style={styles.formMsg}>{this.state.error}</Text>
           }
           <Button
             transparent

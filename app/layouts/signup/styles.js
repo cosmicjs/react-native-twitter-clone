@@ -19,7 +19,7 @@ export default {
   },
   formMsg: {
     fontSize: 10,
-    color: 'grey',
+    color: 'red',
     alignSelf: 'center',
   },
   loginBtn: {

@@ -4,14 +4,18 @@ import FormData from 'form-data';
 
 // Constants
 const CREATE_USER = 'CREATE_USER';
+const LOGIN = 'LOGIN';
 
 // Action Creators
 const createUser = user => ({ type: CREATE_USER, user });
+const login = user => ({ type: LOGIN, user });
 
 // Reducer
 export default (user = {}, action) => {
   switch (action.type) {
     case CREATE_USER:
+      return action.user;
+    case LOGIN:
       return action.user;
     default:
       return user;
@@ -27,7 +31,6 @@ const formatUser = data => ({
 
 // Dispatcher
 export const addUser = user => dispatch => {
-  const url = `https://api.cosmicjs.com/v1/${cosmicCong.bucket.slug}/media`;
   let data = new FormData();
   data.append('media', {
         uri: user.profilePicture,
@@ -35,7 +38,7 @@ export const addUser = user => dispatch => {
         name: 'image'
       });
 
-  axios.post(url, data)
+  axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/media`, data)
   .then(res => res.data.media)
   .then(media => {
     return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
@@ -69,4 +72,10 @@ export const addUser = user => dispatch => {
       .then(res => formatUser(res.data))
       .then(formattedUser => dispatch(createUser(formattedUser)))
       .catch(err => console.error(`Creating user unsuccesful`, err))
+}
+
+const authenticate = user => {
+  axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/users/search?metafield_key=username&metafield_value=${user.username}`)
+  .then(res => res.data)
+  .then(data => console.log(data))
 }
