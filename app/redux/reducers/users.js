@@ -34,7 +34,7 @@ const formatUser = data => ({
 
 // Dispatcher
 export const addUser = user => dispatch => {
-  const url = 'https://api.cosmicjs.com/v1/react-native-cosmic-app/media';
+  const url = `https://api.cosmicjs.com/v1/${cosmicCong.bucket.slug}/media`;
   let data = new FormData();
   data.append('media', {
         uri: user.profilePicture,
@@ -45,7 +45,6 @@ export const addUser = user => dispatch => {
   axios.post(url, data)
   .then(res => res.data.media)
   .then(media => {
-    console.log(media)
     return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
       title: user.name,
       type_slug: 'users',
