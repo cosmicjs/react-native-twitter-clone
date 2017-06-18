@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "concurrently": "^3.4.0",
     "jest-expo": "~1.0.1",
     "react-native-scripts": "0.0.30",
     "react-test-renderer": "16.0.0-alpha.6"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "react-native-scripts start",
+    "start": "concurrently \"react-native-scripts start\" \"node appserver.js\"",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
@@ -21,7 +22,9 @@
   "dependencies": {
     "@expo/vector-icons": "^5.0.0",
     "axios": "^0.16.1",
+    "body-parser": "^1.17.2",
     "expo": "^17.0.0",
+    "express": "^4.15.3",
     "form-data": "^2.2.0",
     "native-base": "^2.1.4",
     "react": "16.0.0-alpha.6",
@@ -31,6 +34,7 @@
     "redux": "^3.6.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "socket.io": "^2.0.3"
   }
 }
