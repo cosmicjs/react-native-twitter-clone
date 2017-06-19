@@ -11,6 +11,7 @@ import {
 } from 'native-base';
 
 import SinglePost from '../../components/SinglePost';
+import FeedNavbar from '../../components/FeedNavbar';
 import { loadPosts } from '../../redux/reducers/posts';
 import styles from './styles';
 
@@ -33,11 +34,16 @@ class Feed extends Component {
     this.props.loadPosts();
   }
 
+  logout(){
+    console.log('LOGOUT')
+  }
+
   render(){
     const endMsg = this.props.posts.length === 0 ? "There aren't any posts yet!" : "That's all the posts for now!"
 
     return (
-      <Container style={styles.container}>
+      <Container>
+        <FeedNavbar logout={this.logout} refresh={this.props.loadPosts} />
         <Content>
           <List>
             {

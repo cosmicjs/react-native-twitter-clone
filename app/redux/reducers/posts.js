@@ -25,6 +25,7 @@ export default (posts = [], action) => {
 // Helper Functions
 const formatPosts = data => data.map(post => {
   const user = post.metadata.user.metadata;
+
   return {
     name: user.name,
     username: user.username,
@@ -37,6 +38,7 @@ const formatPosts = data => data.map(post => {
 const formatPost = (response, postData) => {
   const post = response.object;
   const user = postData.user;
+
   return {
     name: user.name,
     username: user.username,
@@ -52,21 +54,15 @@ const postSorter = (a, b) => {
 
 // Dispatcher
 export const loadPosts = () => dispatch => {
-  axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/posts`)
-    .then(res => {
-      if (res.data.objects){
-      return formatPosts(res.data.objects)
-      } else {
-        return [];
-      }
-    })
+  return axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/posts`)
+    .then(res => res.data.objects ? formatPosts(res.data.objects) : [])
     .then(formattedPosts => formattedPosts.sort(postSorter))
     .then(sortedPosts => dispatch(init(sortedPosts)))
     .catch(err => console.error(`Could not load posts`, err));
 };
 
 export const createPost = post => dispatch => {
-  axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
+  return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
       title: post.user.username + ' post',
       type_slug: 'posts',
       content: post.content,
