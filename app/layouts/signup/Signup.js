@@ -31,7 +31,6 @@ const validate = form => {
   }
   Object.keys(form).slice(0, 5).map(field => {
     if (!form[field]){
-      console.log('FIELD', field);
       errorMessage = 'All fields must be filled';
     }
   })

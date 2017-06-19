@@ -12,7 +12,7 @@ import { Actions } from 'react-native-router-flux';
 import styles from './styles';
 
 
-const Welcome = () => (
+export default () => (
   <Container style={styles.container}>
     <Content>
       <View style={styles.iconBox}>
@@ -43,5 +43,3 @@ const Welcome = () => (
     </Content>
   </Container>
 )
-
-export default Welcome;
