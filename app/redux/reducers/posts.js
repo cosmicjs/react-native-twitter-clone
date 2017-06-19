@@ -3,7 +3,7 @@ import cosmicConfig from '../../config/cosmic';
 
 // Constants
 const INITIALIZE = 'INITIALIZE_POSTS';
-const CREATE     = 'CREATE_POST';
+const CREATE = 'CREATE_POST';
 
 // Action Creators
 const init   = posts => ({ type: INITIALIZE, posts });
@@ -36,7 +36,10 @@ const formatPosts = data => data.map(post => {
 export const loadPosts = () => dispatch => {
   axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/posts`)
     .then(res => formatPosts(res.data.objects))
-    // .then(formattedPosts => console.log(formattedPosts))
     .then(formattedPosts => dispatch(init(formattedPosts)))
     .catch(err => console.error(`Could not load posts`, err));
 };
+
+export const createPost = post => dispatch => {
+
+}

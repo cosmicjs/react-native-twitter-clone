@@ -9,5 +9,10 @@ export default {
   button: {
     alignSelf: 'flex-end',
     margin: 20,
+  },
+  formMsg: {
+    fontSize: 10,
+    color: 'red',
+    alignSelf: 'center',
   }
 };

@@ -39,7 +39,6 @@ class Login extends Component {
 
   onSubmit(){
     const error = validate(this.state);
-
     if (error) {
       this.setState({ error })
     } else {
