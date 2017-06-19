@@ -25,6 +25,7 @@ export default (user = {}, action) => {
 
 // Helper Function
 const formatUser = data => ({
+  name: data.object.metadata.name,
   userName: data.object.metadata.username,
 })
 
@@ -78,12 +79,13 @@ export const authenticate = user => dispatch => {
     .then(res => res.data)
     .then(data => {
       if (data.objects) {
-       return data.objects[0].metadata.password
+        const metadata = data.objects[0].metadata
+        return { password: metadata.password, name: metadata.name }
       }
     })
-    .then(password => {
-      if (password === user.password){
-        dispatch(login({ username: user.username }))
+    .then(data => {
+      if (data.password === user.password){
+        dispatch(login({ username: user.username, name: data.name }))
       } else {
         return 'Username or password invalid';
       }

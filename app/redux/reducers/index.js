@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
-  users: require('./users').default,
+  user: require('./users').default,
   posts: require('./posts').default,
 })
 

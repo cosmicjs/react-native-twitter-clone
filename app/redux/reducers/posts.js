@@ -41,5 +41,19 @@ export const loadPosts = () => dispatch => {
 };
 
 export const createPost = post => dispatch => {
-
+  axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
+    title: post.user.username + ' post',
+    type_slug: 'posts',
+    content: post.content,
+    metafields: [
+      {
+        key: 'user',
+        type: 'text',
+        value: post.user.name,
+      }
+    ]
+  })
+  .then(res => console.log(res.data))
+  .catch(error => console.error('Post unsuccessful', error))
 }
+

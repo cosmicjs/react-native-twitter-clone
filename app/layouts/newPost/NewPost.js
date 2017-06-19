@@ -23,15 +23,15 @@ class NewPost extends Component {
   constructor(){
     super();
     this.state = {
-      post: '',
+      content: '',
       error: '',
     }
   }
   onSubmit() {
-    if (this.state.post){
+    if (this.state.content){
       this.props.createPost({
-        user: this.state.user,
-        post: this.state.post,
+        user: this.props.user,
+        content: this.state.content,
       })
     } else {
       this.setState({error: 'You have to write something!'});
@@ -48,7 +48,7 @@ class NewPost extends Component {
               big
               name="What's up?"
               value={this.state.post}
-              onChangeText={(text) => this.setState({post: text})}
+              onChangeText={(text) => this.setState({content: text})}
             />
             <Button
               rounded
