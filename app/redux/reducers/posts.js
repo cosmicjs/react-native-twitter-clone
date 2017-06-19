@@ -89,7 +89,7 @@ export const createPost = post => dispatch => {
         {
           key: 'username',
           type: 'text',
-          value: post.user.username, //something here
+          value: post.user.username,
         },
         {
           key: 'profile_picture',
@@ -101,14 +101,6 @@ export const createPost = post => dispatch => {
   })
   .then(res => formatPost(res.data))
   .then(formattedPost => dispatch(create(formattedPost)))
-  .then(() => Actions.feed())
+  .then(() => Actions.feed({type: 'popAndReplace'}))
   .catch(error => console.error('Post unsuccessful', error))
 }
-
-// .then(res => {
-//       if (res.data.objects){
-//       return formatPosts(res.data.objects)
-//       } else {
-//         return dispatch(init([]));
-//       }
-//     })

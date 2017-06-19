@@ -14,7 +14,6 @@ import SinglePost from '../../components/SinglePost';
 import { loadPosts } from '../../redux/reducers/posts';
 import styles from './styles';
 
-
 const mapStateToProps = ({ posts }) => ({ posts });
 
 const mapDispatchToProps = { loadPosts };

@@ -7,11 +7,13 @@ import {
   Button,
 } from 'native-base';
 import { View } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import TextField from '../../components/TextField';
 import styles from './styles';
 
-import { createPost } from '../../redux/reducers/posts'
+import { createPost } from '../../redux/reducers/posts';
+
+// import io from 'socket.io-client';
+// const socket = io();
 
 const mapStateToProps = state => ({
   user: state.user,

@@ -20,6 +20,10 @@ const io = require('socket.io')(server);
 io.on('connection', (socket) => {
   console.log(socket.id, ' connected')
 
+  socket.on('new', () => {
+    console.log('new post created');
+  })
+
   socket.on('disconnect', () => {
     console.log(socket.id, ' disconnected')
   })
