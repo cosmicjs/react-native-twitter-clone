@@ -26,7 +26,10 @@ export default (user = {}, action) => {
 // Helper Function
 const formatUser = data => ({
   name: data.object.metadata.name,
-  userName: data.object.metadata.username,
+  username: data.object.metadata.username,
+  profilePicture: data.object.metadata.profile_picture,
+  id: data.object._id,
+  slug: data.object.slug,
 })
 
 // Dispatcher
@@ -68,7 +71,10 @@ export const addUser = user => dispatch => {
           }
         )}
       )
-      .then(res => formatUser(res.data))
+      .then(res => {
+        console.log(res.data)
+        return formatUser(res.data)
+      })
       .then(formattedUser => dispatch(createUser(formattedUser)))
       .then(() => Actions.feed())
       .catch(err => console.error(`Creating user unsuccessful`, err))
@@ -79,13 +85,26 @@ export const authenticate = user => dispatch => {
     .then(res => res.data)
     .then(data => {
       if (data.objects) {
-        const metadata = data.objects[0].metadata
-        return { password: metadata.password, name: metadata.name }
+        const userData = data.objects[0];
+        return {
+          password: userData.metadata.password,
+          username: userData.metadata.username,
+          name: userData.metadata.name,
+          profilePicture: userData.metadata.profile_picture,
+          slug: userData.slug,
+          id: userData._id,
+        }
       }
     })
     .then(data => {
       if (data.password === user.password){
-        dispatch(login({ username: user.username, name: data.name }))
+        dispatch(login({
+          name: data.name,
+          username: data.username,
+          profilePicture: data.profilePicture,
+          slug: data.slug,
+          id: data.id,
+        }))
       } else {
         return 'Username or password invalid';
       }

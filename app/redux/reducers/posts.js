@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { Actions } from 'react-native-router-flux';
+import FormData from 'form-data';
 import cosmicConfig from '../../config/cosmic';
 
 // Constants
@@ -21,16 +23,28 @@ export default (posts = [], action) => {
   }
 }
 
-// Helper Function
+// Helper Functions
 const formatPosts = data => data.map(post => {
-  const user = post.metadata.user.metadata;
+  const user = post.metadata;
   return {
     name: user.name,
     username: user.username,
     profilePicture: {uri: user.profile_picture.url},
     content: post.content.replace(/<[^>]*>/g, ''),
+    created: post.created,
   }
 })
+
+const formatPost = data => {
+  const post = data.object;
+  return {
+  name: post.metadata.name,
+  username: post.metadata.username,
+  profilePicture: { uri: post.metadata.profile_picture.url},
+  content: post.content,
+  created: post.created,
+  }
+}
 
 // Dispatcher
 export const loadPosts = () => dispatch => {
@@ -41,19 +55,40 @@ export const loadPosts = () => dispatch => {
 };
 
 export const createPost = post => dispatch => {
-  axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
-    title: post.user.username + ' post',
-    type_slug: 'posts',
-    content: post.content,
-    metafields: [
-      {
-        key: 'user',
-        type: 'text',
-        value: post.user.name,
-      }
-    ]
+  let data = new FormData();
+  data.append('media', {
+        uri: post.user.profilePicture,
+        type: 'image/jpeg',
+        name: 'image'
+      });
+  axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/media`, data)
+  .then(res => res.data.media)
+  .then(media => {
+    return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
+      title: post.user.username + ' post',
+      type_slug: 'posts',
+      content: post.content,
+      metafields: [
+        {
+          key: 'name',
+          type: 'text',
+          value: post.user.name,
+        },
+        {
+          key: 'username',
+          type: 'text',
+          value: post.user.username, //something here
+        },
+        {
+          key: 'profile_picture',
+          type: 'file',
+          value: media.name,
+        }
+      ]
+    })
   })
-  .then(res => console.log(res.data))
+  .then(res => console.log('RESPONSE: ', res.data))
+  .then(() => Actions.feed())
   .catch(error => console.error('Post unsuccessful', error))
 }
 
