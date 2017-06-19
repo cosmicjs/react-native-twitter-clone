@@ -38,12 +38,24 @@ class Login extends Component {
   }
 
   onSubmit(){
-    const error = validate(this.state)
+    const error = validate(this.state);
+
     if (error) {
       this.setState({ error })
     } else {
-    this.props.authenticate(this.state);
+    this.login();
     }
+  }
+
+  login(){
+    this.props.authenticate(this.state)
+      .then(res => {
+        if (res === 'Username or password invalid'){
+          this.setState({error: res})
+        } else {
+          Actions.feed();
+        }
+      });
   }
 
   render(){
