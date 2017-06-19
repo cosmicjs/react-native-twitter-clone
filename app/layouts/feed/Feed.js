@@ -11,40 +11,41 @@ import {
 } from 'native-base';
 
 import SinglePost from '../../components/SinglePost';
+import { loadPosts } from '../../redux/reducers/posts';
 import styles from './styles';
 
 
 const mapStateToProps = ({ posts }) => ({ posts });
 
-class Feed extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
+const mapDispatchToProps = { loadPosts };
 
-  renderPost(post, index){
-    return (
-      <SinglePost
-        key={index}
-        name={post.name}
-        username={post.username}
-        profilePicture={post.profilePicture}
-        content={post.content}
-      />
-    )
+const renderPost = (post, index) => (
+  <SinglePost
+    key={index}
+    name={post.name}
+    username={post.username}
+    profilePicture={post.profilePicture}
+    content={post.content}
+  />
+)
+
+class Feed extends Component {
+  componentDidMount(){
+    this.props.loadPosts();
   }
 
   render(){
+    const endMsg = this.props.posts.length === 0 ? "There aren't any posts yet!" : "That's all the posts for now!"
 
     return (
       <Container style={styles.container}>
         <Content>
           <List>
             {
-              this.props.posts.map(this.renderPost)
+              !!this.props.posts.length && this.props.posts.map(renderPost)
             }
           </List>
-          <Text style={styles.end}>That's all the posts for now!</Text>
+          <Text style={styles.end}>{endMsg}</Text>
         </Content>
         <Button
           rounded
@@ -61,4 +62,4 @@ class Feed extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Feed);
+export default connect(mapStateToProps, mapDispatchToProps)(Feed);

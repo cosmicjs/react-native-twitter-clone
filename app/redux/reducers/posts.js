@@ -46,11 +46,23 @@ const formatPost = data => {
   }
 }
 
+const postSorter = (a, b) => {
+  return new Date(b.created) - new Date(a.created);
+}
+
 // Dispatcher
 export const loadPosts = () => dispatch => {
   axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/posts`)
-    .then(res => formatPosts(res.data.objects))
-    .then(formattedPosts => dispatch(init(formattedPosts)))
+    .then(res => {
+      console.log(res.data)
+      if (res.data.objects){
+      return formatPosts(res.data.objects)
+      } else {
+        return [];
+      }
+    })
+    .then(formattedPosts => formattedPosts.sort(postSorter))
+    .then(sortedPosts => dispatch(init(sortedPosts)))
     .catch(err => console.error(`Could not load posts`, err));
 };
 
@@ -87,8 +99,16 @@ export const createPost = post => dispatch => {
       ]
     })
   })
-  .then(res => console.log('RESPONSE: ', res.data))
+  .then(res => formatPost(res.data))
+  .then(formattedPost => dispatch(create(formattedPost)))
   .then(() => Actions.feed())
   .catch(error => console.error('Post unsuccessful', error))
 }
 
+// .then(res => {
+//       if (res.data.objects){
+//       return formatPosts(res.data.objects)
+//       } else {
+//         return dispatch(init([]));
+//       }
+//     })
