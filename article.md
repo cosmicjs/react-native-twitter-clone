@@ -1,10 +1,8 @@
 # How to make a simple Twitter clone with React Native
 
-In this tutorial, we're going to create a small Twitter-like mobile app using React Native. With our app, users will be able to create accounts and log in, see a feed of all of the posts created by other users, and add their own posts to the feed. The data for all of our users and posts will be managed by Cosmic JS.
+In this tutorial, we're going to create a small Twitter-like mobile app using React Native. With our app, users will be able to create accounts and log in, see a feed of all of the posts created by themselves and other users, and add their own posts to the feed. The data for all of our users and posts will be managed by Cosmic JS.
 
-For the full source code, go [here](http://github.com/thenorthstarblues/react-native-cosmic-app)
-
-You’ll need node.js and npm installed. I’m using node v7.10.0 and npm v5.0.0.
+For the full source code, go [here](http://github.com/thenorthstarblues/react-native-cosmic-app).
 
 ## Getting Started
 
@@ -22,12 +20,12 @@ I'm also using the [Expo SDK](expo.io) so that I don't have to get Xcode and And
 
 ## Dependencies
 
-We've going to use several tools to help speed up our development process; we'll talk about a few of the key ones here.
+We're going to use several tools for this project; we'll talk about a few of the key ones here.
 
-* Native Base is a component library that will allow us to quickly make an attractive user interface that works cross-platform.
-* React Native Router Flux will help us navigate between the different screens of our app.
-* React-Redux will connect the different components of our app to our store where we will keep data about the state of our application.
-* Axios is what we will use to make our calls to the Cosmic JS API.
+* [Native Base](https://nativebase.io/) is a component library that will allow us to quickly make an attractive user interface that works cross-platform.
+* [React Native Router Flux](https://github.com/aksonov/react-native-router-flux) will help us navigate between the different screens of our app.
+* [React-Redux](https://github.com/reactjs/react-redux) will connect the different components of our app to our store where we will keep data about the state of our application.
+* [Axios](https://github.com/mzabriskie/axios) is a promised-based HTTP client that we will use to make our calls to the Cosmic JS API.
 
 Go ahead and copy and paste the following into your package.json and then run `yarn install` again.
 
@@ -72,7 +70,7 @@ Go ahead and copy and paste the following into your package.json and then run `y
 
 ## Directory Structure
 
-Compared to some other boilerplates, CRNA is pretty unopinianated about how we structure the files in our application; it just gives us an `index.ios.js` and `index.android.js` and `App.js` as a starting point.
+Compared to some other boilerplates, CRNA is pretty unopinionated about how we structure the files in our application; it just gives us an `index.ios.js` and `index.android.js` and `App.js` as a starting point.
 
 We're going to have our `App.js` point to a folder called `app` that will hold all of our components, layouts, config files, and our redux store and reducers. The following is the scaffolding that I have found works best for me. I won't go into the contents of each and every file in this post, but you can see it all in the [source code](http://github.com/thenorthstarblues/react-native-cosmic-app).
 
@@ -84,6 +82,10 @@ Here is what our `app` folder will look like:
 │   └── fonts
 │       └── Pacifico.ttf
 ├── components
+│   ├── FeedNavbar
+│   │   ├── FeedNavbar.js
+│   │   ├── index.js
+│   │   └── styles.js
 │   ├── SinglePost
 │   │   ├── SinglePost.js
 │   │   ├── index.js
@@ -198,7 +200,7 @@ const scenes = Actions.create(
     <Scene key="welcome" component={Welcome} title="Welcome" initial={true} />
     <Scene key="login" component={Login} title="Login" type={ActionConst.REPLACE} />
     <Scene key="signup" component={Signup} title="Create New Account" type={ActionConst.REPLACE} />
-    <Scene key="feed" component={Feed} title="Your Feed" type={ActionConst.REPLACE} />
+    <Scene key="feed" component={Feed} title="Your Feed" type={ActionConst.REPLACE} hideNavBar />
     <Scene key="newPost" component={NewPost} title="Make a new post" />
   </Scene>
 );
@@ -210,7 +212,7 @@ export default () => (
 
 Using React Native Router Flux, we've just created a bunch of scenes to which we can easily navigate from anywhere in our app.
 
-Our first scene is our "Welcome" layout, where users will choose between logging in and creating a new account. It looks like this:
+Our first scene is the `Welcome` layout, where users will choose between logging in and creating a new account. It looks like this:
 
 ``` javascript
 import React from 'react';
@@ -259,7 +261,7 @@ export default () => (
   </Container>
 )
 ```
-Here we've just created two buttons with Native Base that will navigate to the Login and Signup layouts.
+Here we've just created two buttons with Native Base that will navigate to the `Login` and `Signup` layouts.
 
 Let's take a look at our `Signup` layout and see what happens when users create a new account.
 
@@ -403,9 +405,7 @@ class Signup extends Component {
           >
             <Text>Create account</Text>
           </Button>
-          {
-            !!this.state.error && <Text style={styles.formMsg}>{this.state.error}</Text>
-          }
+          <Text style={styles.formMsg}>{this.state.error}</Text>
           <Button
             transparent
             style={styles.loginBtn}
@@ -425,7 +425,7 @@ export default connect(null, mapDispatchToProps)(Signup);
 There are a couple of things that happen here:
 * We keep the contents of our form fields on state as the users fill out the form.
 * When users submit, we do some simple validation to make sure that they have filled out the fields with valid input.
-* We then make our first call to the Cosmic JS API to make sure that they username they have selected is not already in use.
+* We then make our first call to the Cosmic JS API to make sure that the username they have selected is not already in use.
 * Finally, when all of the fields contain valid input, we submit the form as a new user to the Cosmic JS API with our `addUser` function.
 
 The `addUser` function is defined in our `users` reducer; it looks like this:
@@ -438,7 +438,8 @@ export const addUser = user => dispatch => {
         type: 'image/jpeg',
         name: 'image'
       });
-  axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/media`, data)
+
+  return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/media`, data)
   .then(res => res.data.media)
   .then(media => {
     return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
@@ -575,11 +576,7 @@ class Login extends Component {
             onPress={() => Actions.signup()}>
             <Text style={styles.signupTxt}>Sign up for an account</Text>
           </Button>
-          {
-            !!this.state.error && (
-              <Text style={styles.formMsg}>{this.state.error}</Text>
-            )
-          }
+          <Text style={styles.formMsg}>{this.state.error}</Text>
         </Content>
       </Container>
     );
@@ -624,3 +621,192 @@ export const authenticate = user => dispatch => {
     .catch(error => console.error('Login unsuccessful', error))
 }
 ```
+As a side note, we normally wouldn't want to be storing user credentials directly to our database without some kind of encryption, but we'll leave it like this for now as a simple illustration of how we can manage our data with the Cosmic API.
+
+When users are logged in, they will go directly to the Feed layout, which looks like this:
+
+``` javascript
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
+import {
+  Container,
+  Content,
+  List,
+  Button,
+  Icon,
+  Text,
+} from 'native-base';
+
+import SinglePost from '../../components/SinglePost';
+import FeedNavbar from '../../components/FeedNavbar';
+import { loadPosts } from '../../redux/reducers/posts';
+import { logoutUser } from '../../redux/reducers/users';
+import styles from './styles';
+
+const mapStateToProps = ({ posts }) => ({ posts });
+
+const mapDispatchToProps = { loadPosts, logoutUser };
+
+const renderPost = (post, index) => (
+  <SinglePost
+    key={index}
+    name={post.name}
+    username={post.username}
+    profilePicture={post.profilePicture}
+    content={post.content}
+  />
+)
+
+class Feed extends Component {
+  componentDidMount(){
+    this.props.loadPosts();
+  }
+
+  render(){
+    const endMsg = this.props.posts.length === 0 ? "There aren't any posts yet!" : "That's all the posts for now!"
+
+    return (
+      <Container>
+        <FeedNavbar logout={this.props.logoutUser} refresh={this.props.loadPosts} />
+        <Content>
+          <List>
+            {
+              !!this.props.posts.length && this.props.posts.map(renderPost)
+            }
+          </List>
+          <Text style={styles.end}>{endMsg}</Text>
+        </Content>
+        <Button
+          rounded
+          style={styles.button}
+          onPress={() => Actions.newPost()}
+        >
+          <Icon
+            name="create"
+            style={{padding: 5}}
+          />
+        </Button>
+      </Container>
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feed);
+```
+
+When the Feed layout mounts, we make a call to the Cosmic API to load all of the posts in our bucket onto our app state. The `loadPosts` function, in our `posts` reducer, looks like this:
+
+``` javascript
+export const loadPosts = () => dispatch => {
+  return axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/posts`)
+    .then(res => res.data.objects ? formatPosts(res.data.objects) : [])
+    .then(formattedPosts => formattedPosts.sort(postSorter))
+    .then(sortedPosts => dispatch(init(sortedPosts)))
+    .catch(err => console.error(`Could not load posts`, err));
+};
+```
+
+We pull in all of the posts that are in our bucket, format them in a way that will make it easy to get the data that we want, and load them onto state. They are then displayed in the feed.
+
+From the feed, users can click a button to make a new post. They are then taken to the `NewPost` layout:
+
+``` javascript
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  Container,
+  Content,
+  Text,
+  Button,
+} from 'native-base';
+import { View } from 'react-native';
+import TextField from '../../components/TextField';
+import styles from './styles';
+
+import { createPost } from '../../redux/reducers/posts';
+
+const mapStateToProps = state => ({
+  user: state.user,
+})
+
+const mapDispatchToProps = { createPost };
+
+class NewPost extends Component {
+  constructor(){
+    super();
+    this.state = {
+      content: '',
+      error: '',
+    }
+  }
+  onSubmit() {
+    if (this.state.content){
+      this.props.createPost({
+        user: this.props.user,
+        content: this.state.content,
+      })
+    } else {
+      this.setState({error: 'You have to write something!'});
+    }
+  }
+
+  render(){
+    return (
+      <Container style={styles.container}>
+        <Content>
+          <Text style={styles.formMsg}>{this.state.error}</Text>
+          <View style={styles.input}>
+            <TextField
+              big
+              name="What's up?"
+              value={this.state.post}
+              onChangeText={(text) => this.setState({content: text})}
+            />
+            <Button
+              rounded
+              style={styles.button}
+              onPress={() => this.onSubmit()}
+            >
+              <Text>Post</Text>
+            </Button>
+          </View>
+        </Content>
+      </Container>
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPost);
+```
+
+When they submit their post, we will send it to our bucket:
+
+``` javascript
+export const createPost = post => dispatch => {
+  return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
+      title: post.user.username + ' post',
+      type_slug: 'posts',
+      content: post.content,
+      metafields: [
+        {
+          type: 'object',
+          title: 'User',
+          key: 'user',
+          object_type: 'users',
+          value: post.user.id
+        },
+      ]
+    })
+      .then(res => formatPost(res.data, post))
+      .then(formattedPost => dispatch(create(formattedPost)))
+      .then(() => Actions.feed({type: 'popAndReplace'}))
+      .catch(error => console.error('Post unsuccessful', error))
+}
+```
+
+and then redirect back to the feed which will pull in the updated list of posts. Users can also refresh their feed to see new posts and logout from the `Feed`.
+
+## TL;DR
+
+We made a Twitter-like app using React Native which utilized the power of the Cosmic JS API to easily maintain all of the data for our users and posts. We were able to get up and running quickly with a few simple actions that POST and GET our data to/from our Cosmic JS bucket.

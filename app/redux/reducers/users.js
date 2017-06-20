@@ -45,7 +45,8 @@ export const addUser = user => dispatch => {
         type: 'image/jpeg',
         name: 'image'
       });
-  axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/media`, data)
+
+  return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/media`, data)
   .then(res => res.data.media)
   .then(media => {
     return axios.post(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/add-object`, {
@@ -76,10 +77,7 @@ export const addUser = user => dispatch => {
           }
         )}
       )
-      .then(res => {
-        console.log(res.data)
-        return formatUser(res.data)
-      })
+      .then(res => formatUser(res.data))
       .then(formattedUser => dispatch(createUser(formattedUser)))
       .then(() => Actions.feed())
       .catch(err => console.error(`Creating user unsuccessful`, err))

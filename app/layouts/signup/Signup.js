@@ -137,9 +137,7 @@ class Signup extends Component {
           >
             <Text>Create account</Text>
           </Button>
-          {
-            !!this.state.error && <Text style={styles.formMsg}>{this.state.error}</Text>
-          }
+          <Text style={styles.formMsg}>{this.state.error}</Text>
           <Button
             transparent
             style={styles.loginBtn}

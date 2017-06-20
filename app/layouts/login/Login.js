@@ -92,11 +92,7 @@ class Login extends Component {
             onPress={() => Actions.signup()}>
             <Text style={styles.signupTxt}>Sign up for an account</Text>
           </Button>
-          {
-            !!this.state.error && (
-              <Text style={styles.formMsg}>{this.state.error}</Text>
-            )
-          }
+          <Text style={styles.formMsg}>{this.state.error}</Text>
         </Content>
       </Container>
     );
