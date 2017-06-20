@@ -13,11 +13,12 @@ import {
 import SinglePost from '../../components/SinglePost';
 import FeedNavbar from '../../components/FeedNavbar';
 import { loadPosts } from '../../redux/reducers/posts';
+import { logoutUser } from '../../redux/reducers/users';
 import styles from './styles';
 
 const mapStateToProps = ({ posts }) => ({ posts });
 
-const mapDispatchToProps = { loadPosts };
+const mapDispatchToProps = { loadPosts, logoutUser };
 
 const renderPost = (post, index) => (
   <SinglePost
@@ -34,16 +35,12 @@ class Feed extends Component {
     this.props.loadPosts();
   }
 
-  logout(){
-    console.log('LOGOUT')
-  }
-
   render(){
     const endMsg = this.props.posts.length === 0 ? "There aren't any posts yet!" : "That's all the posts for now!"
 
     return (
       <Container>
-        <FeedNavbar logout={this.logout} refresh={this.props.loadPosts} />
+        <FeedNavbar logout={this.props.logoutUser} refresh={this.props.loadPosts} />
         <Content>
           <List>
             {

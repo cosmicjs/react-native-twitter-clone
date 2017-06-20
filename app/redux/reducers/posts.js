@@ -5,10 +5,12 @@ import cosmicConfig from '../../config/cosmic';
 // Constants
 const INITIALIZE = 'INITIALIZE_POSTS';
 const CREATE = 'CREATE_POST';
+const CLEAR = 'CLEAR';
 
 // Action Creators
 const init = posts => ({ type: INITIALIZE, posts });
 const create = post => ({ type: CREATE, post });
+export const clear = () => ({ type: CLEAR });
 
 // Reducer
 export default (posts = [], action) => {
@@ -17,6 +19,8 @@ export default (posts = [], action) => {
       return action.posts;
     case CREATE:
       return [action.post, ...posts];
+    case CLEAR:
+      return [];
     default:
       return posts;
   }
