@@ -87,6 +87,7 @@ export const authenticate = user => dispatch => {
   return axios.get(`https://api.cosmicjs.com/v1/${cosmicConfig.bucket.slug}/object-type/users/search?metafield_key=username&metafield_value=${user.username}`)
     .then(res => res.data)
     .then(data => {
+      console.log('RESPONSE: ', data);
       if (data.objects) {
         const userData = data.objects[0];
         return {
@@ -97,10 +98,14 @@ export const authenticate = user => dispatch => {
           slug: userData.slug,
           id: userData._id,
         }
+      } else {
+        return 'Username invalid';
       }
     })
     .then(data => {
-      if (data.password === user.password){
+      if (data === 'Username invalid'){
+        return data;
+      } else if (data.password === user.password){
         dispatch(login({
           name: data.name,
           username: data.username,
@@ -109,7 +114,7 @@ export const authenticate = user => dispatch => {
           id: data.id,
         }))
       } else {
-        return 'Username or password invalid';
+        return 'Password invalid';
       }
     })
     .catch(error => console.error('Login unsuccessful', error))
