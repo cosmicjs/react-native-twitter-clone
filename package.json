@@ -26,6 +26,7 @@
     "expo": "^17.0.0",
     "express": "^4.15.3",
     "form-data": "^2.2.0",
+    "mv": "^2.1.1",
     "native-base": "^2.1.4",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.0",
