@@ -3,6 +3,7 @@
 A React Native Twitter clone that uses Cosmic JS for data storage.  Register / login and add posts to your feed.
 
 ## Getting Started
+Create a new Bucket after logging in to [Cosmic JS](https://cosmicjs.com).
 ```
 git clone https://github.com/cosmicjs/react-native-twitter-clone
 cd react-native-twitter-clone
